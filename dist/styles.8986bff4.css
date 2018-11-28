@@ -1,0 +1,20 @@
+.grid {
+    position: relative;
+}
+
+.cell {
+    width: 50px;
+    height: 50px;
+    border-radius: 90px;
+    background: #AAA;
+    display: inline-block;
+    position: absolute;
+}
+
+.cell.piece-red {
+    background: #C00
+}
+
+.cell.piece-blue {
+    background: #00C
+}
