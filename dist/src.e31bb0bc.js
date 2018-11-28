@@ -30447,26 +30447,102 @@ function () {
   }
 
   _createClass(Game, [{
+    key: "getWinner",
+    value: function getWinner() {
+      var _this2 = this;
+
+      var _loop = function _loop(p) {
+        var piece = _this2.pieces[p];
+        var tempPiece = void 0;
+        var counter = void 0;
+
+        var reset = function reset() {
+          tempPiece = piece;
+          counter = 1;
+        };
+
+        var directions = ['left', 'top', 'bottom', 'right', 'top-left', 'top-right', 'bottom-right', 'bottom-left'];
+
+        for (var i = 0; i < directions.length; i++) {
+          reset();
+
+          while (tempPiece) {
+            tempPiece = _this2.getAdjacentPiece(directions[i], tempPiece);
+            if (tempPiece && tempPiece.color === piece.color) counter++;
+            if (counter > 3) console.log(counter);
+            if (counter === 4) return {
+              v: piece.color
+            };
+          }
+        }
+      };
+
+      for (var p = 0; p < this.pieces.length; p++) {
+        var _ret = _loop(p);
+
+        if (_typeof(_ret) === "object") return _ret.v;
+      }
+    }
+  }, {
+    key: "getAdjacentPiece",
+    value: function getAdjacentPiece(dir, piece) {
+      if (!piece) return;
+
+      switch (dir) {
+        case 'left':
+          return this.getPiece(piece.col - 1, piece.row);
+
+        case 'top':
+          return this.getPiece(piece.col, piece.row - 1);
+
+        case 'right':
+          return this.getPiece(piece.col + 1, piece.row);
+
+        case 'bottom':
+          return this.getPiece(piece.col, piece.row + 1);
+
+        case 'top-left':
+          return this.getPiece(piece.col - 1, piece.row - 1);
+
+        case 'bottom-left':
+          return this.getPiece(piece.col - 1, piece.row + 1);
+
+        case 'top-right':
+          return this.getPiece(piece.col + 1, piece.row - 1);
+
+        case 'bottom-right':
+          return this.getPiece(piece.col + 1, piece.row + 1);
+      }
+    }
+  }, {
+    key: "getPiece",
+    value: function getPiece(col, row) {
+      if (col >= COLS || row >= ROWS) return undefined;else return this.pieces.find(function (piece) {
+        return piece.row === row && piece.col === col;
+      });
+    }
+  }, {
     key: "placePiece",
     value: function placePiece(col) {
       var piecesOnCol = this.pieces.filter(function (piece) {
         return piece.col === col;
       }) || [];
       if (piecesOnCol.length === ROWS) return console.warn("This row is already full D:");
-      console.log("Inserting piece to: ", col, ROWS - piecesOnCol.length - 1);
       this.pieces.push(new Piece(col, ROWS - piecesOnCol.length - 1, this.currentTurn));
       if (this.currentTurn === 'red') this.currentTurn = 'blue';else this.currentTurn = 'red';
+      var winner = this.getWinner();
+      if (winner) console.log("WE HAVE A WINNDER! ", winner);
     }
   }, {
     key: "cells",
     get: function get() {
-      var _this2 = this;
+      var _this3 = this;
 
       var cells = [];
 
-      var _loop = function _loop(row) {
-        var _loop2 = function _loop2(col) {
-          var piece = _this2.pieces.find(function (piece) {
+      var _loop2 = function _loop2(row) {
+        var _loop3 = function _loop3(col) {
+          var piece = _this3.pieces.find(function (piece) {
             return piece.row === row && piece.col === col;
           });
 
@@ -30478,12 +30554,12 @@ function () {
         };
 
         for (var col = 0; col < COLS; col++) {
-          _loop2(col);
+          _loop3(col);
         }
       };
 
       for (var row = 0; row < ROWS; row++) {
-        _loop(row);
+        _loop2(row);
       }
 
       return cells;

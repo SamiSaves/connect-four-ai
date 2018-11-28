@@ -69,15 +69,67 @@ class Game {
         return cells
     }
 
+    getWinner() {
+        for (let p = 0; p < this.pieces.length; p++) {
+            const piece = this.pieces[p]
+
+            let tempPiece
+            let counter
+            const reset = () => { tempPiece = piece; counter = 1}
+
+            const directions = ['left', 'top', 'bottom', 'right', 'top-left', 'top-right', 'bottom-right', 'bottom-left']
+
+            for (let i = 0; i < directions.length; i++) {
+                reset()
+
+                while(tempPiece) {
+                    tempPiece = this.getAdjacentPiece(directions[i], tempPiece)
+                    if (tempPiece && tempPiece.color === piece.color) counter++
+                    if (counter > 3) console.log(counter)
+                    if (counter === 4) return piece.color
+                }
+            }
+        }
+    }
+
+    getAdjacentPiece(dir, piece) {
+        if (!piece) return
+        switch(dir) {
+            case 'left':
+                return this.getPiece(piece.col-1, piece.row)
+            case 'top':
+                return this.getPiece(piece.col, piece.row-1)
+            case 'right':
+                return this.getPiece(piece.col+1, piece.row)
+            case 'bottom':
+                return this.getPiece(piece.col, piece.row+1)
+            case 'top-left':
+                return this.getPiece(piece.col-1, piece.row-1)
+            case 'bottom-left':
+                return this.getPiece(piece.col-1, piece.row+1)
+            case 'top-right':
+                return this.getPiece(piece.col+1, piece.row-1)
+            case 'bottom-right':
+                return this.getPiece(piece.col+1, piece.row+1)
+        }
+    }
+
+    getPiece(col, row) {
+        if (col >= COLS || row >= ROWS) return undefined
+        else return this.pieces.find(piece => piece.row === row && piece.col === col)
+    }
+
     @action placePiece (col) {
         const piecesOnCol = this.pieces.filter(piece => piece.col === col) || []
         if (piecesOnCol.length === ROWS) return console.warn("This row is already full D:")
         
-        console.log("Inserting piece to: ", col, ROWS - piecesOnCol.length - 1)
         this.pieces.push(new Piece(col, ROWS - piecesOnCol.length - 1, this.currentTurn))
 
         if (this.currentTurn === 'red') this.currentTurn = 'blue'
         else this.currentTurn = 'red'
+
+        const winner = this.getWinner()
+        if (winner) console.log("WE HAVE A WINNDER! ", winner)
     } 
 }
 
