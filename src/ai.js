@@ -4,10 +4,10 @@ const aiMove = (game) =>  {
     const COLS = 7
     let moves = 0
 
-    const getHeuristicValue = (node, game) => {
-        const connectionValue = game.getConnectionValue(node) || 0
+    if (game.winner) return console.log("Someone has already won")
+
+    const getHeuristicValue = (connectionValue) => {
         let value = 0
-        if (connectionValue.nextToEnemy) value += 100
         
         if (connectionValue.value >= 4) value += 1000
         else if (connectionValue.value === 3) value += 500
@@ -18,9 +18,10 @@ const aiMove = (game) =>  {
 
     const negamax = (node, depth, color, game, currentValue) => {
         // TODO: Also end if board is full
-        if (depth === 0) {
-            const value = getHeuristicValue(node, game)
-            return (value + currentValue)* color
+        const connectionValue = game.getConnectionValue(node)
+        if (depth === 0  || connectionValue.value >= 4) {
+            const value = getHeuristicValue(connectionValue)
+            return (value + currentValue) * color
         }
 
         let value = -1000000 // -infinity
@@ -30,8 +31,14 @@ const aiMove = (game) =>  {
             const movedPiece = gameClone.placePiece(i)
             if (!movedPiece) continue
             moves++
-            const currentValue = getHeuristicValue(node, gameClone)
-            value = Math.max(value, -negamax(movedPiece, depth - 1, -color, gameClone, currentValue))
+            const connectionValue = gameClone.getConnectionValue(movedPiece)
+
+            // If no other pieces next to this piece, terminate
+            if (connectionValue.value <= 1 && !connectionValue.nextToEnemy) continue
+            
+            const newValue = getHeuristicValue(connectionValue) + currentValue
+
+            value = Math.max(value, -negamax(movedPiece, depth - 1, -color, gameClone, newValue))
         }
 
         return value
@@ -39,14 +46,21 @@ const aiMove = (game) =>  {
     
     let nval = -10000000 // -inifinty
     let bestMove = 5
-    
+    let depth = 5
+    if (game.pieces.length === 1) depth = 8
+    if (game.pieces.length === 3) depth = 7
+
     for (let i = 0; i < COLS; i++) {
         const gameClone = cloneGame(game)
         const movedPiece = gameClone.placePiece(i)
         if (!movedPiece) continue
         moves++
-    
-        let value = -negamax(movedPiece, 6, -1, gameClone)
+        const connectionValue = gameClone.getConnectionValue(movedPiece)
+        // If no other pieces next to this piece, terminate
+        if (connectionValue.value <= 1 && !connectionValue.nextToEnemy) continue
+        
+        const currentValue = getHeuristicValue(connectionValue)
+        let value = -negamax(movedPiece, depth, -1, gameClone, currentValue)
         if (value > nval) {
             bestMove = i
             nval = value
