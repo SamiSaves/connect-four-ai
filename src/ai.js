@@ -1,4 +1,4 @@
-import AIGame from './AIGame'
+import Game from './models/Game'
 
 const aiMove = (game) =>  {
     const COLS = 7
@@ -72,7 +72,7 @@ const aiMove = (game) =>  {
 }
 
 const cloneGame = game => {
-    const newGame = new AIGame()
+    const newGame = new Game()
     newGame.pieces = [...game.pieces]
     newGame.currentTurn = game.currentTurn === 'red' ? 1 : -1
     return newGame

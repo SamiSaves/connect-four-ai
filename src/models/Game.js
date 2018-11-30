@@ -1,19 +1,19 @@
-const ROWS = 6
-const COLS = 7
-
-class Piece {
-    row
-    col
-    color
-
-    constructor(col, row, color) {
-        this.row = row
-        this.col = col
-        this.color = color
-    }
-}
+import Piece from './Piece'
 
 export default class Game {
+    static ROWS = 6
+    static COLS = 7
+    static directions = [
+        'left',
+        'top',
+        'bottom',
+        'right',
+        'top-left',
+        'top-right',
+        'bottom-right',
+        'bottom-left'
+    ]
+
     pieces
     currentTurn
 
@@ -27,9 +27,10 @@ export default class Game {
         let tempPiece
         let counter
         let nextToEnemy
-        const reset = () => { tempPiece = piece; counter = 1}
-
-        const directions = ['left', 'top', 'bottom', 'right', 'top-left', 'top-right', 'bottom-right', 'bottom-left']
+        const reset = () => {
+            tempPiece = piece;
+            counter = 1
+        }
 
         for (let i = 0; i < directions.length; i++) {
             reset()
