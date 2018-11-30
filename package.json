@@ -1,24 +1,23 @@
 {
-  "name": "4inarow",
+  "name": "connect-four",
   "version": "1.0.0",
-  "description": "",
+  "description": "Simple connect four game with AI",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "parcel src/index.html"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Sami Saves",
+  "license": "gpl-3.0",
   "dependencies": {
     "mobx": "^5.6.0",
     "mobx-react": "^5.4.2",
-    "parcel-bundler": "^1.10.3",
     "react": "^16.6.3",
     "react-dom": "^16.6.3"
   },
   "devDependencies": {
     "@babel/core": "^7.1.6",
     "@babel/plugin-proposal-class-properties": "^7.1.0",
-    "@babel/plugin-proposal-decorators": "^7.1.6"
+    "@babel/plugin-proposal-decorators": "^7.1.6",
+    "parcel-bundler": "^1.10.3"
   }
 }
