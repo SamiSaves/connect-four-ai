@@ -5,7 +5,7 @@ const connectionString = "mongodb://localhost:27017"
 const connectMongoose = async () => {
     await mongoose.connect(connectionString, {
         dbName: 'ConnectFour',
-        uerNewUrlParser: true,
+        useNewUrlParser: true,
         useCreateIndex: true
     })
 }
