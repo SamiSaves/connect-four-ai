@@ -28,6 +28,6 @@ gameSchema.statics.updateGame = async (id, pieces) => {
     return await Game.findByIdAndUpdate(id, { pieces }).exec()
 }
 
-const Game = new mongoose.Model('Game', gameSchema, 'games')
+const Game = new mongoose.model('Game', gameSchema, 'games')
 
 module.exports = { Game }
