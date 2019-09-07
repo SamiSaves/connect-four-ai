@@ -14,7 +14,8 @@ const pieceSchema = new mongoose.Schema({
 const gameSchema = new mongoose.Schema({
     name: String,
     pieces: [ pieceSchema ],
-    winner: String
+    winner: String,
+    currentTurn: String
 })
 
 gameSchema.statics.findGame = async id => {
@@ -22,7 +23,7 @@ gameSchema.statics.findGame = async id => {
 }
 
 gameSchema.statics.createGame = async name => {
-    const game = new Game({ name, pieces: [] })
+    const game = new Game({ name, pieces: [], currentTurn: "red" })
     return await game.save()
 }
 
@@ -30,6 +31,8 @@ gameSchema.statics.insertPiece = async (id, column, color) => {
     const game = await Game.findGame(id)
 
     if (!game) throw Error('Game not found')
+    if (game.currentTurn !== color) throw Error(`It's not ${color} turn`)
+
     placePiece(game, column, color)
     
     return await game.save()

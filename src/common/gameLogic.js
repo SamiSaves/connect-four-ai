@@ -28,6 +28,7 @@ const placePiece = (game, column, color) => {
     game.pieces.push(piece)
     const isWinningMove = isWinner(game.pieces, piece)
     if (isWinningMove) game.winner = color
+    game.currentTurn = color === "red" ? "blue" : "red"
 }
 
 const getPiece = (pieces, { column, row }) => {
