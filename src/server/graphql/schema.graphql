@@ -1,0 +1,31 @@
+type AiScript {
+    _id: ID
+    name: String
+    script: String
+}
+
+type Position {
+    col: Int
+    row: Int
+}
+
+type Piece {
+    position: Position
+    color: String
+}
+
+type Game {
+    name: String
+    pieces: [Piece]
+}
+
+type Mutation {
+    createAiScript(name: String, script: String): AiScript
+    updateAiScript(id: ID, script: String): AiScript
+    createGame(name: String): Game
+    insertPiece(id: ID, column: Int, color: String): Game
+}
+
+type Query {
+    hello: String
+}
