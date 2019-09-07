@@ -19,6 +19,7 @@ type Game {
     name: String
     pieces: [Piece]
     winner: String
+    currentTurn: String
 }
 
 type Mutation {
