@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const { placePiece } = require('../../common/gameLogic')
 
 const positionSchema = new mongoose.Schema({
     col: Number,
@@ -24,8 +25,13 @@ gameSchema.statics.createGame = async name => {
     return await game.save()
 }
 
-gameSchema.statics.updateGame = async (id, pieces) => {
-    return await Game.findByIdAndUpdate(id, { pieces }).exec()
+gameSchema.statics.insertPiece = async (id, column, color) => {
+    const game = await Game.findGame(id)
+
+    if (!game) throw Error('Game not found')
+    game.pieces = placePiece(game.pieces, column, color)
+
+    return await game.save()
 }
 
 const Game = new mongoose.model('Game', gameSchema, 'games')

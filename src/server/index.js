@@ -20,9 +20,8 @@ const initServer = async () => {
         createGame: async ({ name }) => {
             return await Game.createGame(name)
         },
-        insertPiece: ({ id, column, color }) => {
-            console.log('Inserting a piece', color, column)
-            return { name: 'testGame', _id: id, pieces: [{ position: { col: column, row: 0 }, color }] }
+        insertPiece: async ({ id, column, color }) => {
+            return await Game.insertPiece(id, column, color)
         }
     }
 
