@@ -22,6 +22,10 @@ gameSchema.statics.findGame = async id => {
     return await Game.findOne({ _id: id })
 }
 
+gameSchema.statics.findGames = async () => {
+    return await Game.find({})
+}
+
 gameSchema.statics.createGame = async name => {
     const game = new Game({ name, pieces: [], currentTurn: "red" })
     return await game.save()

@@ -22,6 +22,9 @@ const initServer = async () => {
         },
         insertPiece: async ({ id, column, color }) => {
             return await Game.insertPiece(id, column, color)
+        },
+        getGames: async () => {
+            return await Game.findGames()
         }
     }
 
