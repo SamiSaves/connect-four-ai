@@ -20,4 +20,4 @@ aiScriptSchema.statics.updateAiScript = async (id, script) => {
 
 const AiScript = mongoose.model('AiScript', aiScriptSchema, 'aiScripts')
 
-module.exports({ AiScript })
+module.exports = { AiScript }

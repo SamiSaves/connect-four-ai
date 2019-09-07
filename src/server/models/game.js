@@ -30,4 +30,4 @@ gameSchema.statics.updateGame = async (id, pieces) => {
 
 const Game = new mongoose.Model('Game', gameSchema, 'games')
 
-module.exports({ Game })
+module.exports = { Game }
