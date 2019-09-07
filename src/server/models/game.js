@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const { placePiece } = require('../../common/gameLogic')
 
 const positionSchema = new mongoose.Schema({
-    col: Number,
+    column: Number,
     row: Number,
 }, { _id: false })
 
@@ -13,7 +13,8 @@ const pieceSchema = new mongoose.Schema({
 
 const gameSchema = new mongoose.Schema({
     name: String,
-    pieces: [ pieceSchema ]
+    pieces: [ pieceSchema ],
+    winner: String
 })
 
 gameSchema.statics.findGame = async id => {
@@ -29,8 +30,8 @@ gameSchema.statics.insertPiece = async (id, column, color) => {
     const game = await Game.findGame(id)
 
     if (!game) throw Error('Game not found')
-    game.pieces = placePiece(game.pieces, column, color)
-
+    placePiece(game, column, color)
+    
     return await game.save()
 }
 
