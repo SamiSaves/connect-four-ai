@@ -13,9 +13,8 @@ const initServer = async () => {
         createAiScript: async ({ name, script }) => {
             return await AiScript.createAiScript(name, script)
         },
-        updateAiScript: ({ id, script }) => {
-            console.log('Updating script: ', script)
-            return { script, name: 'test123', _id: id }
+        updateAiScript: async ({ id, script }) => {
+            return await AiScript.updateAiScript(id, script)
         },
         createGame: ({ name }) => {
             console.log('Creating a game', name)

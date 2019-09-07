@@ -15,7 +15,7 @@ aiScriptSchema.statics.createAiScript = async (name, script) => {
 }
 
 aiScriptSchema.statics.updateAiScript = async (id, script) => {
-    return await AiScript.findByIdAndUpdate(id, { script }).exec()
+    return await AiScript.findByIdAndUpdate(id, { script }, { new: true }).exec()
 }
 
 const AiScript = mongoose.model('AiScript', aiScriptSchema, 'aiScripts')
