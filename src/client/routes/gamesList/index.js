@@ -1,5 +1,5 @@
 import React from 'react'
-import { inject, observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react'
 
 @inject(stores => ({ dataStore: stores.dataStore }))
 @observer
@@ -14,6 +14,5 @@ export default class GamesList extends React.Component {
                 ))}
             </div>
         )
-
     }
 }
