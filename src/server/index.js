@@ -3,15 +3,15 @@ const graphqlHTTP = require('express-graphql')
 const cors = require('cors')
 const mongooseClient = require('./mongooseClient')
 const { schema } = require('./graphql/schema')
+const { AiScript } = require('./models/aiScript')
 
 const initServer = async () => {
     const app = express()
     app.use(cors())
 
     const rootValue = {
-        createAiScript: ({ name, script }) => {
-            console.log('Creating script: ', name, script)
-            return { name, script, _id: 'newid' }
+        createAiScript: async ({ name, script }) => {
+            return await AiScript.createAiScript(name, script)
         },
         updateAiScript: ({ id, script }) => {
             console.log('Updating script: ', script)
