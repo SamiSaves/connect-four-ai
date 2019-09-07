@@ -4,9 +4,9 @@
   "description": "Simple connect four game with AI",
   "main": "index.js",
   "scripts": {
-    "start": "npm-run-all start-client start-server",
-    "start-server": "nodemon src/server/index.js",
-    "start-client": "parcel src/client/index.html"
+    "start": "npm-run-all --parallel client:dev server:dev",
+    "server:dev": "nodemon src/server/index.js",
+    "client:dev": "parcel src/client/index.html"
   },
   "author": "Sami Saves",
   "license": "gpl-3.0",
