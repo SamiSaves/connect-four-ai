@@ -4,6 +4,7 @@ const cors = require('cors')
 const mongooseClient = require('./mongooseClient')
 const { schema } = require('./graphql/schema')
 const { AiScript } = require('./models/aiScript')
+const { Game } = require('./models/game')
 
 const initServer = async () => {
     const app = express()
@@ -16,9 +17,8 @@ const initServer = async () => {
         updateAiScript: async ({ id, script }) => {
             return await AiScript.updateAiScript(id, script)
         },
-        createGame: ({ name }) => {
-            console.log('Creating a game', name)
-            return { name, _id: 'testid', pieces: [] }
+        createGame: async ({ name }) => {
+            return await Game.createGame(name)
         },
         insertPiece: ({ id, column, color }) => {
             console.log('Inserting a piece', color, column)
