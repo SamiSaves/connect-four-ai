@@ -15,6 +15,7 @@ type Piece {
 }
 
 type Game {
+    _id: ID
     name: String
     pieces: [Piece]
 }
