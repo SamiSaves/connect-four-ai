@@ -31,6 +31,7 @@ gameSchema.statics.insertPiece = async (id, column, color) => {
     const game = await Game.findGame(id)
 
     if (!game) throw Error('Game not found')
+    if (game.winner) throw Error(`Game is already over, winner is ${game.winner}`)
     if (game.currentTurn !== color) throw Error(`It's not ${color} turn`)
 
     placePiece(game, column, color)
