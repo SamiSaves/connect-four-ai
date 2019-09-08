@@ -5,6 +5,7 @@ import Button from '@material-ui/core/Button'
 import { withStyles } from '@material-ui/core/styles'
 import { inject, observer } from 'mobx-react'
 import { observable } from 'mobx'
+import { Typography } from '@material-ui/core'
 
 @inject((stores) => ({ dataStore: stores.dataStore }))
 @observer
@@ -20,19 +21,17 @@ class GameView extends React.Component {
   }
 
   executeScript = () => {
-    let column
     try {
       // eslint-disable-next-line no-eval
-      column = eval(`(() => { ${this.form.script} })()`)
+      const column = eval(`(() => { ${this.form.script} })()`)
       if (typeof column !== 'number') {
-        throw Error('Error: Method did not return a number')
+        throw Error('Method did not return a number')
       }
-    } catch (error) {
-      console.error('Scrpit execution failed:', error)
-      return
-    }
 
-    this.props.dataStore.insertPiece(column)
+      this.props.dataStore.insertPiece(column)
+    } catch (error) {
+      this.form.error = `Script execution failed:\n\n${error}`
+    }
   }
 
   render() {
@@ -56,14 +55,22 @@ class GameView extends React.Component {
         </div>
         <div className={this.props.classes.form}>
           <TextField
+            className={this.props.classes.scriptField}
             label="Script"
             multiline
-            rows="4"
+            rows="8"
             variant="outlined"
             onChange={this.onInputChange}
             value={this.form.script}
           />
-          <Button onClick={this.executeScript}>Execute</Button>
+          <Button
+            className={this.props.classes.executeButton}
+            onClick={this.executeScript}
+            variant="contained"
+          >
+            Execute
+          </Button>
+          <Typography className={this.props.classes.errorText}>{this.form.error}</Typography>
         </div>
       </div>
     )
@@ -72,6 +79,7 @@ class GameView extends React.Component {
 
 class ScriptForm {
   @observable script = ''
+  @observable error = ''
 }
 
 GameView.propTypes = {
@@ -83,6 +91,17 @@ GameView.propTypes = {
 const styles = {
   form: {
     marginTop: 30,
+  },
+  scriptField: {
+    width: '100%',
+  },
+  executeButton: {
+    marginTop: 10,
+  },
+  errorText: {
+    marginTop: 10,
+    color: '#C00',
+    whiteSpace: 'pre-line',
   },
   board: {
     position: 'relative',
