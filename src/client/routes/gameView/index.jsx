@@ -1,13 +1,27 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import TextField from '@material-ui/core/TextField'
+import Button from '@material-ui/core/Button'
 import { withStyles } from '@material-ui/core/styles'
 import { inject, observer } from 'mobx-react'
+import { observable } from 'mobx'
 
 @inject((stores) => ({ dataStore: stores.dataStore }))
 @observer
 class GameView extends React.Component {
+  form = new ScriptForm()
+
   async componentDidMount() {
     await this.props.dataStore.getGame(this.props.match.params.gameid)
+  }
+
+  onInputChange = ({ target }) => {
+    this.form.script = target.value
+  }
+
+  executeScript = () => {
+    // eslint-disable-next-line no-eval
+    this.props.dataStore.insertPiece(eval(`(() => { ${this.form.script} })()`))
   }
 
   render() {
@@ -29,11 +43,24 @@ class GameView extends React.Component {
             />
           ))}
         </div>
-        <div>{ JSON.stringify(this.props.dataStore.currentGame) }</div>
-        <div>Script field</div>
+        <div className={this.props.classes.form}>
+          <TextField
+            label="Script"
+            multiline
+            rows="4"
+            variant="outlined"
+            onChange={this.onInputChange}
+            value={this.form.script}
+          />
+          <Button onClick={this.executeScript}>Execute</Button>
+        </div>
       </div>
     )
   }
+}
+
+class ScriptForm {
+  @observable script = ''
 }
 
 GameView.propTypes = {
@@ -43,6 +70,9 @@ GameView.propTypes = {
 }
 
 const styles = {
+  form: {
+    marginTop: 30,
+  },
   board: {
     position: 'relative',
     width: '41vmin',
