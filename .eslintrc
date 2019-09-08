@@ -4,15 +4,15 @@
   "extends": "airbnb",
   "rules": {
     "semi": [ "error", "never" ],
-    "no-use-before-define": 0,
-    "no-underscore-dangle": 0,
-    "no-continue": 0,
-    "no-plusplus": 0,
-    "max-classes-per-file": 0,
-    "lines-between-class-members": 0,
-    "react/forbid-prop-types": 0,
-    "react/destructuring-assignment": 0,
-    "react/require-default-props": 0,
-    "no-undef": 0
+    "no-use-before-define": "off",
+    "no-underscore-dangle": "off",
+    "no-continue": "off",
+    "no-plusplus": "off",
+    "max-classes-per-file": "off",
+    "lines-between-class-members": "off",
+    "react/forbid-prop-types": "off",
+    "react/destructuring-assignment": "off",
+    "react/require-default-props": "off",
+    "no-undef": "off"
   }
 }
