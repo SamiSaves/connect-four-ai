@@ -17,7 +17,12 @@ class GamesList extends React.Component {
         {games.map((game) => {
           const statusText = game.winner ? `Game is over (winner: ${game.winner})` : `Current turn: ${game.currentTurn}`
           return (
-            <ListItem button key={game._id}>
+            <ListItem
+              button
+              key={game._id}
+              onClick={() => { this.props.history.push(`/game/${game._id}`)}}
+              href={`/game/${game._id}`}
+            >
               <ListItemText
                 primary={game.name}
                 secondary={statusText}
@@ -32,6 +37,7 @@ class GamesList extends React.Component {
 
 GamesList.propTypes = {
   dataStore: PropTypes.any,
+  history: PropTypes.any,
 }
 
 export default GamesList
