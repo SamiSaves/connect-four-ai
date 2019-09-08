@@ -1,4 +1,5 @@
-import { observable, action } from 'mobx'
+import { observable, action, computed } from 'mobx'
+import { maxCols, maxRows } from '../../common/gameLogic'
 
 export default class DataStore {
   @observable games = []
@@ -63,5 +64,25 @@ export default class DataStore {
 
     const game = await result.json()
     this.currentGame = game.data.getGame
+  }
+
+  @computed
+  get cells() {
+    if (!this.currentGame) return []
+    const boardCells = []
+
+    for (let column = 0; column < maxCols; column++) {
+      for (let row = 0; row < maxRows; row++) {
+        const piece = this.currentGame.pieces.find(({ position }) => position.column === column && position.row === row)
+        if (!piece) {
+          boardCells.push({ column, row, color: 'empty' })
+          continue
+        }
+
+        boardCells.push({ ...piece.position, color: piece.color })
+      }
+    }
+
+    return boardCells
   }
 }

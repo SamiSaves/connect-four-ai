@@ -84,4 +84,4 @@ const isWinner = (pieces, piece) => {
   return winner
 }
 
-module.exports = { placePiece }
+module.exports = { placePiece, maxCols, maxRows }
