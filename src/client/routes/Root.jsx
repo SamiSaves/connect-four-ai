@@ -5,7 +5,7 @@ import Paper from '@material-ui/core/Paper'
 import { withStyles } from '@material-ui/core/styles'
 import GamesList from './gamesList/GameList'
 import Navigation from './common/navigation'
-import GameView from './gameView'
+import GameView from './gameView/GameView'
 
 const Root = (props) => (
   <div>
