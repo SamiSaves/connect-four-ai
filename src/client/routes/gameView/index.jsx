@@ -20,8 +20,19 @@ class GameView extends React.Component {
   }
 
   executeScript = () => {
-    // eslint-disable-next-line no-eval
-    this.props.dataStore.insertPiece(eval(`(() => { ${this.form.script} })()`))
+    let column
+    try {
+      // eslint-disable-next-line no-eval
+      column = eval(`(() => { ${this.form.script} })()`)
+      if (typeof column !== 'number') {
+        throw Error('Error: Method did not return a number')
+      }
+    } catch (error) {
+      console.error('Scrpit execution failed:', error)
+      return
+    }
+
+    this.props.dataStore.insertPiece(column)
   }
 
   render() {
