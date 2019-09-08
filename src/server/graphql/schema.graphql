@@ -31,4 +31,5 @@ type Mutation {
 
 type Query {
     getGames: [Game]
+    getGame(id: ID): Game
 }

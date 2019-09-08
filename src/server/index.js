@@ -16,6 +16,7 @@ const initServer = async () => {
     createGame: async ({ name }) => Game.createGame(name),
     insertPiece: async ({ id, column, color }) => Game.insertPiece(id, column, color),
     getGames: async () => Game.findGames(),
+    getGame: async ({ id }) => Game.findGame(id),
   }
 
   app.use('/graphql', graphqlHTTP({ schema, rootValue, graphiql: true }))
