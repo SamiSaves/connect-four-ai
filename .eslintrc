@@ -9,6 +9,7 @@
     "no-continue": 0,
     "no-plusplus": 0,
     "max-classes-per-file": 0,
+    "lines-between-class-members": 0,
     "react/forbid-prop-types": 0,
     "react/destructuring-assignment": 0,
     "react/require-default-props": 0,
