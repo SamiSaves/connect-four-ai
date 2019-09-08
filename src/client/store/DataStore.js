@@ -103,6 +103,10 @@ export default class DataStore {
     })
 
     const game = await result.json()
+    if (game.errors) {
+      throw new Error(game.errors.map((error) => error.message).join('\n'))
+    }
+
     this.currentGame = game.data.insertPiece
   }
 

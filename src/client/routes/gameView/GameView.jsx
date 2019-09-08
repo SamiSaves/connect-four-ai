@@ -20,7 +20,7 @@ class GameView extends React.Component {
     this.form.script = target.value
   }
 
-  executeScript = () => {
+  executeScript = async () => {
     try {
       // eslint-disable-next-line no-eval
       const column = eval(`(() => { ${this.form.script} })()`)
@@ -28,7 +28,7 @@ class GameView extends React.Component {
         throw Error('Method did not return a number')
       }
 
-      this.props.dataStore.insertPiece(column)
+      await this.props.dataStore.insertPiece(column)
     } catch (error) {
       this.form.error = `Script execution failed:\n\n${error}`
     }
