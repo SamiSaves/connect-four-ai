@@ -66,6 +66,46 @@ export default class DataStore {
     this.currentGame = game.data.getGame
   }
 
+  @action
+  insertPiece = async (column) => {
+    const query = `
+    mutation insertPiece ($id: ID, $column: Int, $color: String) {
+      insertPiece(id: $id, column: $column, color: $color) {
+        _id
+        name
+        winner
+        currentTurn
+        pieces {
+          color
+          position {
+            column
+            row
+          }
+        }
+      }
+    }
+    `
+
+    const result = await fetch('http://localhost:3000/graphql', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify({
+        query,
+        variables: {
+          id: this.currentGame._id,
+          column,
+          color: this.currentGame.currentTurn,
+        },
+      }),
+    })
+
+    const game = await result.json()
+    this.currentGame = game.data.getGame
+  }
+
   @computed
   get cells() {
     if (!this.currentGame) return []
@@ -73,7 +113,10 @@ export default class DataStore {
 
     for (let column = 0; column < maxCols; column++) {
       for (let row = 0; row < maxRows; row++) {
-        const piece = this.currentGame.pieces.find(({ position }) => position.column === column && position.row === row)
+        const piece = this.currentGame.pieces.find(({ position }) => (
+          position.column === column && position.row === row
+        ))
+
         if (!piece) {
           boardCells.push({ column, row, color: 'empty' })
           continue
