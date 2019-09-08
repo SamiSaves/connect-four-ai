@@ -103,7 +103,7 @@ export default class DataStore {
     })
 
     const game = await result.json()
-    this.currentGame = game.data.getGame
+    this.currentGame = game.data.insertPiece
   }
 
   @computed
