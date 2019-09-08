@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Switch, Route } from 'react-router-dom'
 import Paper from '@material-ui/core/Paper'
 import { withStyles } from '@material-ui/core/styles'
-import GamesList from './gamesList'
+import GamesList from './gamesList/GameList'
 import Navigation from './common/navigation'
 import GameView from './gameView'
 

@@ -20,7 +20,7 @@ class GamesList extends React.Component {
             <ListItem
               button
               key={game._id}
-              onClick={() => { this.props.history.push(`/game/${game._id}`)}}
+              onClick={() => { this.props.history.push(`/game/${game._id}`) }}
               href={`/game/${game._id}`}
             >
               <ListItemText
