@@ -1,4 +1,7 @@
 {
     "editor.tabSize": 2,
-    "editor.detectIndentation": false
+    "editor.detectIndentation": false,
+    "html.format.endWithNewline": true,
+    "files.trimTrailingWhitespace": true,
+    "javascript.implicitProjectConfig.experimentalDecorators": true
 }
