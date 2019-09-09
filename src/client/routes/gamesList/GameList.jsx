@@ -20,7 +20,6 @@ class GamesList extends React.Component {
 
   createGame = async () => {
     if (this.form.name) {
-      console.log("Hmm")
       await this.props.dataStore.createGame(this.form.name)
     }
   }
