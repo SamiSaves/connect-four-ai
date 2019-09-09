@@ -110,6 +110,31 @@ export default class DataStore {
     this.currentGame = game.data.insertPiece
   }
 
+  @action
+  createGame = async (name) => {
+    const query = `
+    mutation createGame ($name: String) {
+      createGame(name: $name) {
+        _id
+      }
+    }
+    `
+
+    await fetch('http://localhost:3000/graphql', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify({
+        query,
+        variables: { name },
+      }),
+    })
+
+    await this.getGames()
+  }
+
   @computed
   get cells() {
     if (!this.currentGame) return []
